@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
     private bool moveToPoint = false;
     private Vector3 endPosition;
+    private Vector3 startRayPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour
         if (moveToPoint)
         {
             transform.position = Vector3.MoveTowards(transform.position, endPosition, moveSpeed * Time.deltaTime);
-            Debug.Log(Vector3.Distance(transform.position, endPosition));
+            //Debug.Log(Vector3.Distance(transform.position, endPosition));
             if (Vector3.Distance(transform.position, endPosition) == 0)
             {
                 moveToPoint = false;
@@ -33,28 +34,52 @@ public class Player : MonoBehaviour
     {
         if (!moveToPoint)
         {
-            if (Input.GetKey(KeyCode.A)) //Left
+            if (Input.GetKey(KeyCode.A))
             {
-                endPosition = new Vector3(endPosition.x - distanceToMove, endPosition.y, endPosition.z);
-                moveToPoint = true;
+                startRayPosition = new Vector3(transform.position.x - distanceToMove, transform.position.y, transform.position.z);
+                RaycastHit2D hit = Physics2D.Raycast(startRayPosition, Vector2.left, 0.1f);
+                if (hit.collider == null)
+                {
+                    endPosition = new Vector3(endPosition.x - distanceToMove, endPosition.y, endPosition.z);
+                    moveToPoint = true;
+                    return;
+                }
             }
-            if (Input.GetKey(KeyCode.D)) //Right
+            if (Input.GetKey(KeyCode.D))
             {
-                endPosition = new Vector3(endPosition.x + distanceToMove, endPosition.y, endPosition.z);
-                moveToPoint = true;
+                startRayPosition = new Vector3(transform.position.x + distanceToMove, transform.position.y, transform.position.z);
+                RaycastHit2D hit = Physics2D.Raycast(startRayPosition, Vector2.left, 0.1f);
+                if (hit.collider == null)
+                {
+                    endPosition = new Vector3(endPosition.x + distanceToMove, endPosition.y, endPosition.z);
+                    moveToPoint = true;
+                    return;
+                }
             }
-            if (Input.GetKey(KeyCode.W)) //Up
+            if (Input.GetKey(KeyCode.W))
             {
-                endPosition = new Vector3(endPosition.x, endPosition.y + distanceToMove, endPosition.z);
-                moveToPoint = true;
+                startRayPosition = new Vector3(transform.position.x, transform.position.y + distanceToMove, transform.position.z);
+                RaycastHit2D hit = Physics2D.Raycast(startRayPosition, Vector2.left, 0.1f);
+                if (hit.collider == null)
+                {
+                    endPosition = new Vector3(endPosition.x, endPosition.y + distanceToMove, endPosition.z);
+                    moveToPoint = true;
+                    return;
+                }
             }
-            if (Input.GetKey(KeyCode.S)) //Down
+            if (Input.GetKey(KeyCode.S))
             {
-                endPosition = new Vector3(endPosition.x, endPosition.y - distanceToMove, endPosition.z);
-                moveToPoint = true;
+                startRayPosition = new Vector3(transform.position.x, transform.position.y - distanceToMove, transform.position.z);
+                RaycastHit2D hit = Physics2D.Raycast(startRayPosition, Vector2.left, 0.1f);
+                if (hit.collider == null)
+                {
+                    endPosition = new Vector3(endPosition.x, endPosition.y - distanceToMove, endPosition.z);
+                    moveToPoint = true;
+                    return;
+                }
             }
         }
-        
-
     }
+
+
 }
