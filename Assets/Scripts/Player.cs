@@ -13,10 +13,14 @@ public class Player : MonoBehaviour
 
     GameObject blackScreen;
 
+    private enum Direction { Left, Right, Up, Down };
+    private Direction facing;
+
     // Start is called before the first frame update
     void Start()
     {
         endPosition = transform.position;
+        facing = Direction.Down;
         blackScreen = GameObject.FindGameObjectWithTag("BlackScreen");
     }
 
@@ -44,6 +48,7 @@ public class Player : MonoBehaviour
                 {
                     endPosition = new Vector3(endPosition.x - distanceToMove, endPosition.y, endPosition.z);
                     moveToPoint = true;
+                    facing = Direction.Left;
                     return;
                 }
             }
@@ -54,6 +59,7 @@ public class Player : MonoBehaviour
                 {
                     endPosition = new Vector3(endPosition.x + distanceToMove, endPosition.y, endPosition.z);
                     moveToPoint = true;
+                    facing = Direction.Right;
                     return;
                 }
             }
@@ -64,6 +70,7 @@ public class Player : MonoBehaviour
                 {
                     endPosition = new Vector3(endPosition.x, endPosition.y + distanceToMove, endPosition.z);
                     moveToPoint = true;
+                    facing = Direction.Up;
                     return;
                 }
             }
@@ -74,6 +81,16 @@ public class Player : MonoBehaviour
                 {
                     endPosition = new Vector3(endPosition.x, endPosition.y - distanceToMove, endPosition.z);
                     moveToPoint = true;
+                    facing = Direction.Down;
+                    return;
+                }
+            }
+            if (Input.GetKey(KeyCode.Return))
+            {
+                Debug.Log("Enter pressed");
+                if (CanTalkAhead())
+                {
+                    Debug.Log("Can talk in front");
                     return;
                 }
             }
@@ -91,6 +108,35 @@ public class Player : MonoBehaviour
             }
         }
         return true;
+    }
+
+    bool CanTalkAhead()
+    {
+        switch (facing)
+        {
+            case Direction.Left:
+                startRayPosition = new Vector3(transform.position.x - distanceToMove, transform.position.y, transform.position.z);
+                break;
+            case Direction.Right:
+                startRayPosition = new Vector3(transform.position.x + distanceToMove, transform.position.y, transform.position.z);
+                break;
+            case Direction.Up:
+                startRayPosition = new Vector3(transform.position.x, transform.position.y + distanceToMove, transform.position.z);
+                break;
+            case Direction.Down:
+                startRayPosition = new Vector3(transform.position.x, transform.position.y - distanceToMove, transform.position.z);
+                break;
+        }
+        RaycastHit2D hit = Physics2D.Raycast(startRayPosition, Vector2.left, 0.1f);
+        Debug.Log(hit.collider);
+        if (hit.collider != null)
+        {
+            if (hit.collider.tag == "Interactable")
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
