@@ -410,15 +410,6 @@ Tilemap:
   m_GameObject: {fileID: 685541203}
   m_Enabled: 1
   m_Tiles:
-  - first: {x: 0, y: -1, z: 0}
-    second:
-      m_TileIndex: 1
-      m_TileSpriteIndex: 1
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_ObjectToInstantiate: {fileID: 0}
-      m_TileFlags: 1
-      m_ColliderType: 1
   - first: {x: 2, y: -1, z: 0}
     second:
       m_TileIndex: 1
@@ -558,17 +549,17 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 7255bb6f5a2726949aa6975b67c9ca6f, type: 2}
-  - m_RefCount: 15
+  - m_RefCount: 14
     m_Data: {fileID: 11400000, guid: 7b33ae3aa592c0140a477be340cfc267, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1
     m_Data: {fileID: -3715849132347856441, guid: dc54f03ac6dce5a44b054d083bb56d2f,
       type: 3}
-  - m_RefCount: 15
+  - m_RefCount: 14
     m_Data: {fileID: 7472101654684843527, guid: dc54f03ac6dce5a44b054d083bb56d2f,
       type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 16
+  - m_RefCount: 15
     m_Data:
       e00: 1
       e01: 0
@@ -587,7 +578,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 16
+  - m_RefCount: 15
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1430,7 +1421,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1623927999}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53e5807ad38c39940bf7e63798511d0b, type: 3}
+  m_Script: {fileID: 11500000, guid: a8ba8b6091082d342b13df1108a49006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1635209217

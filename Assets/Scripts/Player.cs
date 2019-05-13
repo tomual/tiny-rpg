@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed;
 
     private bool moveToPoint = false;
+    private bool frozen = false;
     private Vector3 endPosition;
     private Vector3 startRayPosition;
 
@@ -39,7 +40,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!moveToPoint)
+        if (!moveToPoint && !frozen)
         {
             if (Input.GetKey(KeyCode.A))
             {
@@ -87,10 +88,9 @@ public class Player : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.Return))
             {
-                Debug.Log("Enter pressed");
                 if (CanTalkAhead())
                 {
-                    Debug.Log("Can talk in front");
+                    Talk();
                     return;
                 }
             }
@@ -112,6 +112,19 @@ public class Player : MonoBehaviour
 
     bool CanTalkAhead()
     {
+        Collider2D tile = GetTileAhead();
+        if (tile != null)
+        {
+            if (tile.tag == "Interactable")
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Collider2D GetTileAhead()
+    {
         switch (facing)
         {
             case Direction.Left:
@@ -128,15 +141,7 @@ public class Player : MonoBehaviour
                 break;
         }
         RaycastHit2D hit = Physics2D.Raycast(startRayPosition, Vector2.left, 0.1f);
-        Debug.Log(hit.collider);
-        if (hit.collider != null)
-        {
-            if (hit.collider.tag == "Interactable")
-            {
-                return true;
-            }
-        }
-        return false;
+        return hit.collider;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -154,4 +159,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void Talk()
+    {
+        Collider2D actor = GetTileAhead();
+        actor.GetComponent<Interactable>().TalkBack();
+    }
 }
