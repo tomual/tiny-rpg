@@ -26,19 +26,25 @@ public class Interactable : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Return))
             {
-                Debug.Log("Next Page");
+                if (index >= dialogue.Count)
+                {
+                    EndConversation();
+                } else
+                {
+                    ShowNextPage();
+                }
             }
         }
     }
 
     public void ShowNextPage()
     {
-        Debug.Log(dialogue[0].GetMessage());
+        Debug.Log(dialogue[index].GetMessage());
         index++;
         lastInteraction = Time.time;
     }
 
-    public virtual void StartConversation()
+    public void StartConversation()
     {
         Debug.Log(dialogue.Count);
         if (dialogue.Count > 0)
@@ -46,6 +52,19 @@ public class Interactable : MonoBehaviour
             talking = true;
             ShowNextPage();
         }
+    }
+
+    public void EndConversation()
+    {
+        index = 0;
+        talking = false;
+        player.GetComponent<Player>().SetListening(false);
+    }
+
+    public void AddPage(string message, Hashtable options)
+    {
+        Page page = new Page(message, options);
+        dialogue.Add(page);
     }
 }
 
@@ -75,5 +94,4 @@ public class Page
     {
         return message;
     }
-
 }

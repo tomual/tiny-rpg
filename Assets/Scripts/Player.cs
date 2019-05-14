@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     private bool listening;
     private Vector3 endPosition;
     private Vector3 startRayPosition;
+    private float interactionCooldown;
+    private float lastInteraction;
 
     GameObject blackScreen;
 
@@ -24,6 +26,7 @@ public class Player : MonoBehaviour
         facing = Direction.Down;
         blackScreen = GameObject.FindGameObjectWithTag("BlackScreen");
         SetListening(false);
+        interactionCooldown = 1f;
     }
 
     void FixedUpdate()
@@ -87,7 +90,7 @@ public class Player : MonoBehaviour
                     return;
                 }
             }
-            if (Input.GetKey(KeyCode.Return))
+            if (Time.time - lastInteraction > interactionCooldown && Input.GetKey(KeyCode.Return))
             {
                 if (CanTalkAhead())
                 {
@@ -170,6 +173,7 @@ public class Player : MonoBehaviour
     public void SetListening(bool listening)
     {
         this.listening = listening;
+        lastInteraction = Time.time;
     }
 
     public bool IsListening()

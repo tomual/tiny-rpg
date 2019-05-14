@@ -8,8 +8,8 @@ public class Interactable1 : Interactable
     protected override void Start()
     {
         base.Start();
-        string message = "Hello hello";
-        Page page = new Page(message);
-        dialogue.Add(page);
+        AddPage("Hello hello", null);
+        AddPage("Tis a nice day today", null);
+        AddPage("Would be a pity if I killed your wife", null);
     }
 }
