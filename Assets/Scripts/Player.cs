@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed;
 
     private bool moveToPoint = false;
-    private bool frozen = false;
+    private bool listening;
     private Vector3 endPosition;
     private Vector3 startRayPosition;
 
@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
         endPosition = transform.position;
         facing = Direction.Down;
         blackScreen = GameObject.FindGameObjectWithTag("BlackScreen");
+        SetListening(false);
     }
 
     void FixedUpdate()
@@ -40,7 +41,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!moveToPoint && !frozen)
+        if (!moveToPoint && !IsListening())
         {
             if (Input.GetKey(KeyCode.A))
             {
@@ -162,6 +163,17 @@ public class Player : MonoBehaviour
     private void Talk()
     {
         Collider2D actor = GetTileAhead();
-        actor.GetComponent<Interactable>().TalkBack();
+        actor.GetComponent<Interactable>().StartConversation();
+        SetListening(true);
+    }
+
+    public void SetListening(bool listening)
+    {
+        this.listening = listening;
+    }
+
+    public bool IsListening()
+    {
+        return listening;
     }
 }

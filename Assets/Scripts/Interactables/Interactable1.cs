@@ -5,19 +5,11 @@ using UnityEngine;
 public class Interactable1 : Interactable
 {
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public override void TalkBack()
-    {
-        Debug.Log("Hello");
+        base.Start();
+        string message = "Hello hello";
+        Page page = new Page(message);
+        dialogue.Add(page);
     }
 }
