@@ -8,8 +8,11 @@ public class Interactable1 : Interactable
     protected override void Start()
     {
         base.Start();
-        AddPage("Hello hello", null);
+        AddPage("Hello hello hello hello hello hello hello hello hello hello hello hello hello", null);
         AddPage("Tis a nice day today", null);
-        AddPage("Would be a pity if I killed your wife", null);
+        Dictionary<string, string> options = new Dictionary<string, string>();
+        options.Add("Yes", "pressyes");
+        options.Add("No", "pressno");
+        AddPage("Would be a pity if I killed your wife", options);
     }
 }
