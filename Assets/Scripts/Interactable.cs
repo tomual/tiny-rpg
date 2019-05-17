@@ -17,10 +17,15 @@ public class Interactable : MonoBehaviour
     int scrollingCursor;
     GameObject panel;
     GameObject panelOptions;
-    GameObject panelOptionsCursor;
+    public GameObject panelOptionsCursor;
     Text panelText;
     string currentLine;
-    bool waitingForInput;
+    public bool waitingForInput;
+
+    Vector2 yesCursorPosition;
+    Vector2 noCursorPosition;
+    int selectedOptionIndex;
+
 
     protected virtual void Start()
     {
@@ -40,9 +45,12 @@ public class Interactable : MonoBehaviour
 
         panel.SetActive(false);
         panelOptions.SetActive(false);
+
+        yesCursorPosition = new Vector2(414, 133);
+        noCursorPosition = new Vector2(414, 104);
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (!waitingForInput)
         {
@@ -54,7 +62,13 @@ public class Interactable : MonoBehaviour
                     {
                         EndConversation();
                     }
-                    else
+                    else if (scrollingCursor != currentLine.Length)
+                    {
+                        scrollingCursor = currentLine.Length - 1;
+                        panelText.text += currentLine.ToString();
+                        lastInteraction = Time.time;
+                    }
+                    else 
                     {
                         ShowNextPage();
                     }
@@ -73,22 +87,25 @@ public class Interactable : MonoBehaviour
                     {
                         waitingForInput = true;
                         panelOptions.SetActive(true);
+                        panelOptionsCursor.gameObject.transform.position = yesCursorPosition;
+                        selectedOptionIndex = 0;
                     }
                     
                 }
                 lastPrint = Time.time;
             }
-        } else
+        }
+        else
         {
-            if (Input.GetKey(KeyCode.S))
+            if (Input.GetKey(KeyCode.W))
             {
-                panelOptionsCursor.gameObject.transform.position = new Vector2(panelOptionsCursor.gameObject.transform.position.x, panelOptionsCursor.gameObject.transform.position.y - 6);
-                Debug.Log("Down!");
+                Debug.Log((Hashtable) dialogue[index - 1].GetOptions()[selectedOptionIndex]);
+                panelOptionsCursor.gameObject.transform.position = yesCursorPosition;
             }
             if (Input.GetKey(KeyCode.S))
             {
-                panelOptionsCursor.gameObject.transform.position = new Vector2(panelOptionsCursor.gameObject.transform.position.x, panelOptionsCursor.gameObject.transform.position.y - 6);
-                Debug.Log("Down!");
+                Debug.Log((Hashtable)dialogue[index - 1].GetOptions()[selectedOptionIndex]);
+                panelOptionsCursor.gameObject.transform.position = noCursorPosition;
             }
         }
     }
@@ -128,7 +145,7 @@ public class Interactable : MonoBehaviour
         panel.SetActive(false);
     }
 
-    public void AddPage(string message, Dictionary<string, string> options)
+    public void AddPage(string message, Hashtable options)
     {
         Page page = new Page(message, options);
         dialogue.Add(page);
@@ -144,7 +161,7 @@ public class Interactable : MonoBehaviour
 public class Page
 {
     private string message;
-    private Dictionary<string, string> options;
+    private Hashtable options;
 
     public Page(string message)
     {
@@ -152,7 +169,7 @@ public class Page
         this.options = null;
     }
 
-    public Page(string message, Dictionary<string, string> options)
+    public Page(string message, Hashtable options)
     {
         this.message = message;
         this.options = options;
@@ -168,7 +185,7 @@ public class Page
         return message;
     }
 
-    public Dictionary<string, string> GetOptions()
+    public Hashtable GetOptions()
     {
         return options;
     }

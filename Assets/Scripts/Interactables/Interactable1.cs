@@ -10,9 +10,27 @@ public class Interactable1 : Interactable
         base.Start();
         AddPage("Hello hello hello hello hello hello hello hello hello hello hello hello hello", null);
         AddPage("Tis a nice day today", null);
-        Dictionary<string, string> options = new Dictionary<string, string>();
+        Hashtable options = new Hashtable();
         options.Add("Yes", "pressyes");
         options.Add("No", "pressno");
         AddPage("Would be a pity if I killed your wife", options);
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (waitingForInput)
+        {
+        }
+    }
+
+    void SelectYes()
+    {
+        Debug.Log("Yes");
+    }
+
+    void SelectNo()
+    {
+        Debug.Log("No");
     }
 }

@@ -4481,6 +4481,8 @@ MonoBehaviour:
   lastInteraction: 0
   talking: 0
   scrolling: 0
+  panelOptionsCursor: {fileID: 0}
+  waitingForInput: 0
 --- !u!1 &1635209217
 GameObject:
   m_ObjectHideFlags: 0
