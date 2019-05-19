@@ -21,6 +21,18 @@ public class Interactable1 : Interactable
         base.Update();
         if (waitingForInput)
         {
+            if (Input.GetKey(KeyCode.Return))
+            {
+                Debug.Log(selectedOptionIndex);
+                if (selectedOptionIndex == 0)
+                {
+                    SelectYes();
+                }
+                if (selectedOptionIndex == 1)
+                {
+                    SelectNo();
+                }
+            }
         }
     }
 

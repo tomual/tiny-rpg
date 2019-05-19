@@ -24,7 +24,7 @@ public class Interactable : MonoBehaviour
 
     Vector2 yesCursorPosition;
     Vector2 noCursorPosition;
-    int selectedOptionIndex;
+    public int selectedOptionIndex;
 
 
     protected virtual void Start()
@@ -101,11 +101,13 @@ public class Interactable : MonoBehaviour
             {
                 Debug.Log((Hashtable) dialogue[index - 1].GetOptions()[selectedOptionIndex]);
                 panelOptionsCursor.gameObject.transform.position = yesCursorPosition;
+                selectedOptionIndex = 0;
             }
             if (Input.GetKey(KeyCode.S))
             {
                 Debug.Log((Hashtable)dialogue[index - 1].GetOptions()[selectedOptionIndex]);
                 panelOptionsCursor.gameObject.transform.position = noCursorPosition;
+                selectedOptionIndex = 1;
             }
         }
     }
