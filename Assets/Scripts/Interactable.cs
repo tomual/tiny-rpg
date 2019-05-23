@@ -25,6 +25,7 @@ public class Interactable : MonoBehaviour
     Vector2 yesCursorPosition;
     Vector2 noCursorPosition;
     public int selectedOptionIndex;
+    public Hashtable currentOptions;
 
 
     protected virtual void Start()
@@ -82,9 +83,11 @@ public class Interactable : MonoBehaviour
                 if (scrollingCursor == currentLine.Length)
                 {
                     scrolling = false;
-                    Debug.Log(dialogue[index - 1].GetOptions());
                     if (dialogue[index - 1].GetOptions() != null)
                     {
+                        Debug.Log(dialogue[index - 1].GetOptions());
+                        Debug.Log(dialogue[index - 1].GetOptions()["Yes"]);
+                        currentOptions = dialogue[index - 1].GetOptions();
                         waitingForInput = true;
                         panelOptions.SetActive(true);
                         panelOptionsCursor.gameObject.transform.position = yesCursorPosition;
@@ -99,15 +102,15 @@ public class Interactable : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.W))
             {
-                Debug.Log((Hashtable) dialogue[index - 1].GetOptions()[selectedOptionIndex]);
                 panelOptionsCursor.gameObject.transform.position = yesCursorPosition;
                 selectedOptionIndex = 0;
+                Debug.Log(currentOptions["Yes"]);
             }
             if (Input.GetKey(KeyCode.S))
             {
-                Debug.Log((Hashtable)dialogue[index - 1].GetOptions()[selectedOptionIndex]);
                 panelOptionsCursor.gameObject.transform.position = noCursorPosition;
                 selectedOptionIndex = 1;
+                Debug.Log(currentOptions["No"]);
             }
         }
     }
